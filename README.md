@@ -1,4 +1,4 @@
-Sparse collapsed Gibbs sampling for LDA
+Sparse Gibbs sampler for LDA
 ====
 
 This is a minimalistic C++11 implementation of [Sparse sampling for
