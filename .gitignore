@@ -1,0 +1,29 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# vi
+*.tags
+*.swp
+
+# cxx
+*.d
+
+# osx
+*.DS_Store
+
+# backup
+*.bak
+
+# binary
+gibbs
