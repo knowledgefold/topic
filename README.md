@@ -13,19 +13,20 @@ This package depends on `glog`, `gflags`, and `gperftools`(optional). To build,
 
 Third party libraries will be installed at `some_directory/third_party/`.
 
-Now we can build this project:
+Now we can build the project:
 
     git clone https://github.com/xunzheng/topic
     cd topic
     ln -s some_directory/third_party third_party
     make
 
-Toy dataset `20news.ylda` is included in the `exp/` directory. Try
+Toy dataset `20news.train` is included in the `exp/` directory. Try
 
     cd exp
     ./run.sh
 
-to get a sample run.
+to get a sample run. Since LDA is an unsupervised model, label information in
+LIBSVM format is ignored.
 
 To see all the available flags, run
 
@@ -35,4 +36,4 @@ without any flags.
 
 Reference
 ----
-TBD
+Limin Yao, David Mimno, and Andrew McCallum. Efficient Methods for Topic Model Inference on Streaming Document Collections. In *International Conference on Knowledge Discovery and Data mining (SIGKDD)*, 2009.
