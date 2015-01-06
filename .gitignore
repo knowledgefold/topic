@@ -25,5 +25,9 @@
 # backup
 *.bak
 
+# profiler
+*.prof
+
 # binary
 gibbs
+third_party

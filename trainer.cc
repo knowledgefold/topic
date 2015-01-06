@@ -26,7 +26,10 @@ void Trainer::Train() {
       ++summary_[rand_topic];
     }
   } // end of for each sample
-  LI << "Initialization took " << timer_.toc() << " sec";
+  auto init_time = timer_.toc();
+  double num_million_token = SUM(summary_) / 1e+6;
+  LW << "Initialization took " << init_time << " sec, throughput: "
+     << num_million_token / init_time << " (M token/sec)";
   PrintPerplexity();
   PrintLogLikelihood();
 
@@ -34,7 +37,9 @@ void Trainer::Train() {
   for (int iter = 1; iter <= FLAGS_num_iter; ++iter) {
     timer_.tic();
     for (auto& sample : train_) TrainOneSample(sample);
-    LI << "Iteration " << iter << " took " << timer_.toc() << " sec";
+    auto iter_time = timer_.toc();
+    LW << "Iteration " << iter << ", Elapsed time: " << timer_.get() << " sec, "
+       << "throughput: " << num_million_token / iter_time << " (M token/sec)";
     if (iter==1 or iter==FLAGS_num_iter or iter%FLAGS_eval_every==0) {
       PrintPerplexity();
       PrintLogLikelihood();
@@ -42,7 +47,7 @@ void Trainer::Train() {
   } // end of for every iter
 
   LI << "--------------------------------------------------------------";
-  LI << "Training Time: " << timer_.get() << " sec";
+  LW << "Training Time: " << timer_.get() << " sec";
 }
 
 // -------------------------------------------------------------------------- //
@@ -77,10 +82,10 @@ void Trainer1::ReadData(std::string data_file) {
   train_.resize(train_.size() - test_size);
   stat_.resize(dict_.size());
 
-  LI << "num doc (train): " << train_.size();
-  LI << "num doc (test): " << test_.size();
-  LI << "num word (total): " << dict_.size(); 
-  LI << "num token (total): " << num_token;
+  LW << "num doc (train): " << train_.size();
+  LW << "num doc (test): " << test_.size();
+  LW << "num word (total): " << dict_.size(); 
+  LW << "num token (total): " << num_token;
   LI << "--------------------------------------------------------------";
 }
 
@@ -363,10 +368,10 @@ void Trainer2::ReadData(std::string data_file) {
   stat_.resize(test_.size() - test_size);
   test_.erase(test_.begin(), test_.end() - test_size);
 
-  LI << "num doc (train): " << stat_.size();
-  LI << "num doc (test): " << test_.size();
-  LI << "num word (total): " << dict_.size(); 
-  LI << "num token (total): " << num_token;
+  LW << "num doc (train): " << stat_.size();
+  LW << "num doc (test): " << test_.size();
+  LW << "num word (total): " << dict_.size(); 
+  LW << "num token (total): " << num_token;
   LI << "--------------------------------------------------------------";
 }
 

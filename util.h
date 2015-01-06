@@ -22,6 +22,7 @@ static std::normal_distribution<double> _stdnormal;
 
 // Google Log hack
 #define LI LOG(INFO)
+#define LW LOG(WARNING)
 #define LD DLOG(INFO)
 
 // Get monotonic time in seconds from a starting point
