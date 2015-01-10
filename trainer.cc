@@ -58,8 +58,8 @@ void Trainer1::ReadData(std::string data_file) {
   char *line = NULL; size_t num_byte;
   while (getline(&line, &num_byte, data_fp) != -1) {
     Sample doc;
-    char *ptr = line;
-    while (*ptr != '\n') {
+    char *ptr = line, *end = line + strlen(line);
+    while (ptr < end) {
       char *colon = strchr(ptr, ':'); // at colon
       ptr = colon; while (*ptr != ' ') --ptr; // ptr at space before colon
       int word_id = dict_.insert_word(std::string(ptr+1, colon));
@@ -68,6 +68,7 @@ void Trainer1::ReadData(std::string data_file) {
       for (int i = 0; i < count; ++i)
         doc.token_.push_back(word_id);
       num_token += count;
+      while (isspace(*ptr)) ++ptr;
     }
     train_.emplace_back(std::move(doc));
   }
@@ -339,8 +340,8 @@ void Trainer2::ReadData(std::string data_file) {
   char *line = NULL; size_t num_byte;
   while (getline(&line, &num_byte, data_fp) != -1) {
     Sample doc;
-    char *ptr = line;
-    while (*ptr != '\n') {
+    char *ptr = line, *end = line + strlen(line);
+    while (ptr < end) {
       char *colon = strchr(ptr, ':'); // at colon
       ptr = colon; while (*ptr != ' ') --ptr; // ptr at space before colon
       int word_id = dict_.insert_word(std::string(ptr+1, colon));
@@ -349,6 +350,7 @@ void Trainer2::ReadData(std::string data_file) {
       for (int i = 0; i < count; ++i)
         doc.token_.push_back(word_id);
       num_token += count;
+      while (isspace(*ptr)) ++ptr;
     }
     test_.emplace_back(std::move(doc)); // reason in next paragraph
   }
