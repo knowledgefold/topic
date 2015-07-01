@@ -1,7 +1,9 @@
 #!/bin/bash
 set -ux
 
-../gibbs \
-  -mode 1 \
-  -data_file 20news.train
+../sparselda \
+  -train_file nytimes.train \
+  -test_file nytimes.test \
+  -num_iter 100000 \
+  -num_topic 1000
 

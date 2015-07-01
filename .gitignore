@@ -26,8 +26,8 @@
 *.bak
 
 # profiler
-*.prof
+*.perf
 
-# binary
-gibbs
-third_party
+# project
+sparselda
+Eigen

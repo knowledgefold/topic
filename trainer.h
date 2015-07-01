@@ -1,55 +1,27 @@
 #pragma once
 
-#include "topic_count.h"
-#include "util.h"
-#include "dict.h"
-
-#include <string>
-#include <vector>
-
-struct Sample {
-  std::vector<int> token_;
-  std::vector<int> assignment_;
-};
+#include "corpus.h"
+#include "sparse_count.h"
 
 class Trainer {
 public:
-  void Train();
-  virtual void ReadData(std::string data_file) = 0;
-  virtual void TrainOneSample(Sample& data) = 0;
-  virtual void PrintPerplexity() = 0;
-  virtual void PrintLogLikelihood() = 0;
-
-protected:
-  // if sample-by-doc:
-  //   train = document, stat = word-topic count
-  // if sample-by-word:
-  //   train = word (i.e., inverted index), stat = doc-topic count
-  // in either case, test represents test documents
-  std::vector<Sample> train_, test_;
-  std::vector<TopicCount> stat_;
-  std::vector<int> summary_;
-  Dict  dict_;
-  Timer timer_;
-};
-
-class Trainer1 : public Trainer { // sample-by-doc
-public:
-  void ReadData(std::string data_file);
+  void Train(); // parameter estimation on training dataset
 
 private:
-  void TrainOneSample(Sample& data);
-  void PrintPerplexity();
-  void PrintLogLikelihood();
-};
-
-class Trainer2 : public Trainer { // sample-by-word
-public:
-  void ReadData(std::string data_file);
+  void initialize(); // TODO: fix header, compile
+  void train_one_document(Document& doc);
+  real evaluate_joint();
+  real evaluate_llh();
+  real evaluate_test_llh();
+  void test_one_document(Document& doc);
+  void save_result();
 
 private:
-  void TrainOneSample(Sample& data);
-  void PrintPerplexity();
-  void PrintLogLikelihood();
+  Corpus train_, test_; // train/test documents
+  std::vector<SparseCount> nkw_; // K x V, topic word counts
+  IMAtrix test_nkw_; // K x V, topic word counts
+  IArray nk_, test_nk_; // K x 1, topic counts
+  EArray alpha_; // K x 1
+  real alpha_sum_, beta_, beta_sum_;
+  std::vector<real> iter_time_, joint_, llh_, test_llh_;
 };
-

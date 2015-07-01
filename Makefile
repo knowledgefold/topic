@@ -1,33 +1,20 @@
 SHELL   =  /bin/bash
 PROJECT := $(realpath $(dir $(lastword $(MAKEFILE_LIST))))
 
-# https://github.com/xunzheng/third_party.git
-THIRD_PARTY     = $(PROJECT)/third_party
-THIRD_PARTY_LIB = $(THIRD_PARTY)/lib
-THIRD_PARTY_INC = $(THIRD_PARTY)/include
-
 CXX      = g++
-CXXFLAGS = -O3 \
-           -std=c++11 \
-           -Wall \
-           -Wno-unused-function \
-	   -fno-builtin-malloc \
-           -fno-builtin-calloc \
-           -fno-builtin-realloc \
-	   -fno-builtin-free \
-           -I$(THIRD_PARTY_INC)
-LDFLAGS  = -Wl,--eh-frame-hdr \
-           -Wl,-rpath,$(THIRD_PARTY_LIB) \
-           -L$(THIRD_PARTY_LIB)
+CXXFLAGS = -O3 -std=c++11 -Wall -Wno-deprecated-declarations
 
-BIN = gibbs
+BIN = sparselda
 SRC = $(wildcard *.cc)
 HDR = $(wildcard *.h)
-DYN = $(LDFLAGS) -lm -lrt -lgflags -lglog -ltcmalloc
+DYN = -lm -lrt
 
 all: $(BIN)
 
-$(BIN): $(SRC) $(HDR)
+Eigen:
+	curl -sL http://bitbucket.org/eigen/eigen/get/3.2.5.tar.bz2 | tar jx --strip=1 eigen-eigen-bdd17ee3b1b3/Eigen
+
+$(BIN): Eigen $(SRC) $(HDR)
 	$(CXX) $(CXXFLAGS) $(SRC) $(DYN) -o $@
 
 clean:
