@@ -4,20 +4,8 @@ Sparse Gibbs sampler for LDA
 This is a minimalistic C++11 implementation of [Sparse sampling for
 LDA](http://people.cs.umass.edu/~lmyao/papers/fast-topic-model10.pdf).
 
-This package depends on `glog`, `gflags`, and `gperftools`(optional). To build,
+To compile, simply type
 
-    cd some_directory
-    git clone https://github.com/xunzheng/third_party
-    cd third_party
-    ./install.sh
-
-Third party libraries will be installed at `some_directory/third_party/`.
-
-Now we can build the project:
-
-    git clone https://github.com/xunzheng/topic
-    cd topic
-    ln -s some_directory/third_party third_party
     make
 
 Toy dataset `20news.train` is included in the `exp/` directory. Try
@@ -28,11 +16,10 @@ Toy dataset `20news.train` is included in the `exp/` directory. Try
 to get a sample run. Since LDA is an unsupervised model, label information in
 LIBSVM format is ignored.
 
-To see all the available flags, run
+To see all the available flags, type
 
-    ./gibbs
+    ./sparselda -h
 
-without any flags.
 
 Reference
 ----
